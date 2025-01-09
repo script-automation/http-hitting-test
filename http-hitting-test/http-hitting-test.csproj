@@ -6,7 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>HttpHittingTest</RootNamespace>
 
-        <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:8.0</ContainerBaseImage>
         <ContainerFamily>alpine</ContainerFamily>
         <ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
         <PublishProfile>DefaultContainer</PublishProfile>
