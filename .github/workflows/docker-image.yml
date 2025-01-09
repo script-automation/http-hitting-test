@@ -3,10 +3,11 @@ name: Docker Image CI
 on:
   push:
     branches:
-      -  main
+      - main
 
 env:
-  IMAGE_NAME: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/http-hitting-test
+  CR_HOST: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/http-hitting-test
 
 jobs:
   publish:
@@ -14,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -23,8 +24,12 @@ jobs:
       - name: Login to registry
         uses: docker/login-action@v3
         with:
+          registry: ${{ env.CR_HOST }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Publish & Push to registry
-        run: dotnet publish
+        run: |
+          dotnet publish \
+            -p ContainerRegistry=${{ env.CR_HOST }} \
+            -p ContainerRepository=${{ env.IMAGE_NAME }}
